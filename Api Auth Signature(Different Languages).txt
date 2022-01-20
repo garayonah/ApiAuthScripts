@@ -1,0 +1,41 @@
+RUBY
+
+data = "GET,application/json,,/api/requestURI,Mon, 12 Nov 2018 08:19:21 UTC";
+key = "itw4wYCqa9+pCnmLooNdTn++eHDhPgsnrCVYHknacwKzmp4MMToovF0i0NG5jaGg/BYrdW/EYLfwuA+4BlS+kA==";
+
+sig = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha1'), key, data)).strip()
+
+PHP
+
+$data = "GET,application/json,,/api/requestURI,Fri, 09 Nov 2018 17:01:03 UTC";
+$key = "itw4wYCqa9+pCnmLooNdTn++eHDhPgsnrCVYHknacwKzmp4MMToovF0i0NG5jaGg/BYrdW/EYLfwuA+4BlS+kA==";
+
+$pass1 = hash_hmac('sha1', $data, $key, true);
+$pass = base64_encode($pass1);
+echo $pass;
+
+C#
+https://dotnetfiddle.net/
+
+using System;
+using System.Security.Cryptography;
+					
+public class Program
+{
+	public static void Main()
+	{
+		var key = "qbUgCABX4ZU5FubCDgCHAbZLSepjtjhNeS4lcCB9qyZ0";
+		var data = "GET,application/json,,/api/requestURI,MON, 28 Jan 2019 9:40:00 GMT";
+		var encoding = new System.Text.ASCIIEncoding();
+		byte[] keyByte = encoding.GetBytes(key);
+		byte[] messageBytes = encoding.GetBytes(data);
+		using (var hmacsha256 = new HMACSHA1(keyByte))
+		{
+			byte[] hashmessage = hmacsha256.ComputeHash(messageBytes);
+			var result = Convert.ToBase64String(hashmessage);
+			Console.WriteLine(result);
+			return result;
+		}
+		
+	}
+}
